@@ -47,6 +47,9 @@ const baseConfig = new ScratchWebpackConfigBuilder(
             clean: false
         },
         resolve: {
+            alias: {
+                canvas: false
+            },
             fallback: {
                 Buffer: require.resolve('buffer/'),
                 stream: require.resolve('stream-browserify')
@@ -58,6 +61,9 @@ const baseConfig = new ScratchWebpackConfigBuilder(
         resourceQuery: /^$/, // reject any query string
         type: 'asset' // let webpack decide on the best type of asset
     })
+    .addPlugin(new webpack.IgnorePlugin({
+        resourceRegExp: /^(utf-8-validate|bufferutil)$/
+    }))
     .addPlugin(new webpack.DefinePlugin({
         'process.env.DEBUG': Boolean(process.env.DEBUG),
         'process.env.GA_ID': `"${process.env.GA_ID || 'UA-000000-01'}"`,
