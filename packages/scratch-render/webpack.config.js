@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
@@ -10,11 +11,17 @@ const baseConfig = new ScratchWebpackConfigBuilder({
     .enableDevServer(process.env.PORT || 8361)
     .merge({
         resolve: {
+            alias: {
+                canvas: false
+            },
             fallback: {
                 Buffer: require.resolve('buffer/')
             }
         }
-    });
+    })
+    .addPlugin(new webpack.IgnorePlugin({
+        resourceRegExp: /^(utf-8-validate|bufferutil)$/
+    }));
 
 const webConfig = baseConfig.clone()
     .setTarget('browserslist')

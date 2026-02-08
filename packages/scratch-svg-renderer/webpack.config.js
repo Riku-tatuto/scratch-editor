@@ -1,5 +1,6 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
 const ScratchWebpackConfigBuilder = require('scratch-webpack-configuration');
 const fs = require('fs');
 const nodeExternals = require('webpack-node-externals');
@@ -59,6 +60,11 @@ const nodeConfig = new ScratchWebpackConfigBuilder(common)
 const webConfig = new ScratchWebpackConfigBuilder(common)
     .setTarget('browserslist')
     .merge({
+        resolve: {
+            alias: {
+                canvas: false
+            }
+        },
         output: {
             library: {
                 name: 'ScratchSVGRenderer',
@@ -66,6 +72,9 @@ const webConfig = new ScratchWebpackConfigBuilder(common)
             }
         }
     })
+    .addPlugin(new webpack.IgnorePlugin({
+        resourceRegExp: /^(utf-8-validate|bufferutil)$/
+    }))
     .get();
 
 /**
@@ -78,6 +87,11 @@ const playgroundConfig = new ScratchWebpackConfigBuilder(common)
             contentBase: false,
             port: process.env.PORT || 8576
         },
+        resolve: {
+            alias: {
+                canvas: false
+            }
+        },
         output: {
             path: path.resolve(__dirname, 'playground'),
             library: {
@@ -87,6 +101,9 @@ const playgroundConfig = new ScratchWebpackConfigBuilder(common)
             publicPath: '/'
         }
     })
+    .addPlugin(new webpack.IgnorePlugin({
+        resourceRegExp: /^(utf-8-validate|bufferutil)$/
+    }))
     .addPlugin(
         new CopyWebpackPlugin({
             patterns: [
