@@ -1,0 +1,6 @@
+packages:
+  - "packages/task-herder"
+  - "packages/scratch-svg-renderer"
+  - "packages/scratch-render"
+  - "packages/scratch-vm"
+  - "packages/scratch-gui"

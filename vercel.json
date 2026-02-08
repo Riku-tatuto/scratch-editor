@@ -1,3 +1,5 @@
 {
+  "installCommand": "pnpm install --no-frozen-lockfile",
+  "buildCommand": "cd packages/scratch-gui && pnpm run build",
   "outputDirectory": "packages/scratch-gui/build"
 }
